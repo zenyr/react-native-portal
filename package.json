@@ -23,6 +23,7 @@
     "mitt": "*"
   },
   "peerDependencies": {
+    "prop-types": "*",
     "react": "*"
   }
 }
