@@ -3,7 +3,21 @@
   "version": "1.0.1",
   "description": "Translocate your render destination, using mitt. Built with react@16 and react-native in mind.",
   "main": "index.js",
-  "author": "Zenyr",
+  "author": "Zenyr <zenyr@zenyr.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zenyr/react-native-portal.git"
+  },
+  "keywords": [
+    "portal",
+    "gateway",
+    "react",
+    "react-native"
+  ],
+  "bugs": {
+    "url": "https://github.com/zenyr/react-native-portal/issues"
+  },
+  "homepage": "https://github.com/zenyr/react-native-portal",
   "license": "MIT",
   "dependencies": {
     "mitt": "*"
