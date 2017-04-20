@@ -1,6 +1,5 @@
 /*
   @flow weak
-  @providesModule Portal  
  */
 
 import React from 'react'; // peer-dependancy
@@ -114,7 +113,6 @@ export class WhitePortal extends React.PureComponent {
     const { name, children } = this.props;
     const { portalGet } = this.context;
 
-    const result = (portalGet && portalGet(name)) || children || null;
-    return result;
+    return (portalGet && portalGet(name)) || children || null;
   }
 }
