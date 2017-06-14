@@ -85,6 +85,11 @@ export class BlackPortal extends React.PureComponent {
       portalSet && portalSet(name, children);
     }
   }
+  componentWillUnmount() {
+    const { name } = this.props;
+    const { portalSet } = this.context;
+    portalSet && portalSet(name, null);
+  }
   render() {
     const { name } = this.props;
     return null;
