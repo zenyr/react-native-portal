@@ -1,5 +1,7 @@
 # react-native-portal
 
+[![npm version](https://badge.fury.io/js/react-native-portal.svg)](https://badge.fury.io/js/react-native-portal)
+
 Translocate your render destination. Using [mitt](https://npm.im/mitt). Built with `react@16` and `react-native` in mind, but these are not strictly required, as long as `React.PureComponent` is available.
 
 The code itself is very minimal and only rely on react's `context`, and written in `ES6`.
