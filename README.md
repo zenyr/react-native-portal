@@ -19,6 +19,7 @@ Feel free to file an issue/PR if you have a better way to publish this component
 - Uncanny resemblance with [cloudflare/react-gateway](https://github.com/cloudflare/react-gateway)
   - This one is smaller though
 - Has `react-native` in its name but works on anywhere including browser DOM.
+- (webpack only) needs proper babel configuration (see **ES6 usage** below)
 
 # Install
 
@@ -27,6 +28,52 @@ Feel free to file an issue/PR if you have a better way to publish this component
  or
  yarn add react-native-portal
  ```
+
+## ES6 usage
+<details>
+<summary>Babel config</summary>
+  This module will work out-of-the-box with most React-native configurations. But you may need to tweak a few options to use `react-native-portal`.
+
+```js
+  module: {
+    rules: [
+      ...
+      {
+        test: /\.js$/,
+        exclude: {
+          and: [
+            /(node_modules|bower_components)/, // << Note 1
+            { not: [/(react-native-portal)/] }, // << Note 2
+          ],
+        },
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: [
+              ...        
+            ],
+            plugins: [
+              ...,
+              ['transform-class-properties', { spec: false }], // <<< Note 3. `spec` is optional
+            ],
+          },
+        },
+      },
+    },
+    ...
+  }
+```
+
+  Above snippet from `webpack.config.js` has 3 lines that you may have to set up properly with `babel-loader`.
+
+  1. It is advised to excluded all `.js` files in *node_modules* from `babel` for performance reasons.
+  2. However, it will also exclude `react-native-portal` from transpiling properly. To prevent that, we can use boolean condition to `exclude` option as noted.
+  3. Also, if you are not using `stage-N` preset you may have to add `transform-class-properties` plugin.
+
+</details>
+
+
+
 
 # Components
 
