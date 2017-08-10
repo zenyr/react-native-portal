@@ -8,10 +8,10 @@ The code itself is very minimal and only rely on react's `context`, and written 
 
 Feel free to file an issue/PR if you have a better way to publish this component.
 
-# Live web demo on webpackbin
+# Live demo on web
 
 - Although I built this module for `react-native`, it works just as great on web.
-- https://www.webpackbin.com/bins/-Kr9B76VSAVYky0ZV8Ps
+- https://codepen.io/zenyr/pen/xLrKPZ
 
 # Aim of this project
 
