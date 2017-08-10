@@ -1,3 +1,10 @@
+# 1.0.3
+- Added live demo
+- Added ES5 build for npm as `index.es5.js` && `index.min.js`
+  - available as
+    - https://unpkg.com/react-native-portal/index.es5.js
+    - https://unpkg.com/react-native-portal/index.min.js
+
 # 1.0.2
 
 - Emit `null` when `BlackPortal` unmounts
