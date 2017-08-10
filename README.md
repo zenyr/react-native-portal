@@ -2,11 +2,16 @@
 
 [![npm version](https://badge.fury.io/js/react-native-portal.svg)](https://badge.fury.io/js/react-native-portal)
 
-Translocate your render destination. Using [mitt](https://npm.im/mitt). Built with `react@16` and `react-native` in mind, but these are not strictly required, as long as `React.PureComponent` is available.
+Translocate your render destination. Using [`mitt`](https://npm.im/mitt). Built with `react@16` and `react-native` in mind, but these are not strictly required, as long as `React.PureComponent` is available.
 
 The code itself is very minimal and only rely on react's `context`, and written in `ES6`.
 
 Feel free to file an issue/PR if you have a better way to publish this component.
+
+# Live web demo on webpackbin
+
+- Although I built this module for `react-native`, it works just as great on web.
+- https://www.webpackbin.com/bins/-Kr9B76VSAVYky0ZV8Ps
 
 # Aim of this project
 
@@ -19,15 +24,41 @@ Feel free to file an issue/PR if you have a better way to publish this component
 - Uncanny resemblance with [cloudflare/react-gateway](https://github.com/cloudflare/react-gateway)
   - This one is smaller though
 - Has `react-native` in its name but works on anywhere including browser DOM.
-- (webpack only) needs proper babel configuration (see **ES6 usage** below)
+- (webpack only) needs proper babel configuration (see **ES6 usage** and **ES5 usage** below)
 
 # Install
 
- ```
- npm i react-native-portal
- or
- yarn add react-native-portal
- ```
+1. install npm module
+```
+npm i react-native-portal -P
+or
+yarn add react-native-portal --prod
+```
+Make sure to put `-P` or `--prod` to ignore useless packages for consuming this module.  
+It should automatically install `mitt`, only if necessary.
+
+2. Wrap your root component with `PortalProvider`.  
+As it requires a single child it is *reasonable* to wrap it in your **entry file**.
+```js
+import {PortalProvider} from 'react-native-portal'
+...
+render(<PortalProvider><YourApp /></PortalProvider>, document.querySelector('#app'))
+```
+
+3. Put your WhitePortal and BlackPortal as you wish, matching their `name` props.
+4. Enjoy your inner peace 🙏
+
+## ES5 usage
+
+You *can* access this module on `react-dom` + legacy browser environment via unpkg.  
+Good enough for quick prototyping and goofying around.
+
+```
+https://unpkg.com/react-native-portal/index.es5.js
+https://unpkg.com/react-native-portal/index.min.js
+```
+
+However I do not recommend that on production 😂
 
 ## ES6 usage
 <details>
@@ -55,6 +86,7 @@ Feel free to file an issue/PR if you have a better way to publish this component
             plugins: [
               ...,
               ['transform-class-properties', { spec: false }], // <<< Note 3. `spec` is optional
+              ['transform-flow-strip-types'], // <<< Note 4. Only if you are NOT using flow
             ],
           },
         },
@@ -68,7 +100,8 @@ Feel free to file an issue/PR if you have a better way to publish this component
 
   1. It is advised to excluded all `.js` files in *node_modules* from `babel` for performance reasons.
   2. However, it will also exclude `react-native-portal` from transpiling properly. To prevent that, we can use boolean condition to `exclude` option as noted.
-  3. Also, if you are not using `stage-N` preset you may have to add `transform-class-properties` plugin.
+  3. if you are not using `stage-N` or proper `env` preset you may have to add `transform-class-properties` plugin.
+  4. if you are not using [`flow`](https://flow.org) you must add `transform-flow-strip-types` plugin.
 
 </details>
 
@@ -81,7 +114,7 @@ Feel free to file an issue/PR if you have a better way to publish this component
 
  Match `BlackPortal` and `WhitePortal` by their name. Wrap your app with this component, presumably in App.js or index.js
 
-```
+```html
 <PortalProvider>
   <YourAppRoot />
 </PortalProvider>
@@ -96,7 +129,7 @@ Sends its child until `WhitePortal` renders, and always render `null` in its pla
 - `name` : `string`
 - `children` : `ReactElement<*>`
 
-```
+```html
 <BlackPortal name="wow">
   <MyButton onPress={this.whatever} title="I'm going to space"/>
 </BlackPortal>
@@ -113,8 +146,8 @@ Renders anything sent from `BlackPortal`. Renders its given child as a fallback.
 - `name` : `string`
 - `children?` : `ReactElement<*>`
 
-```
+```html
 <WhitePortal name="wow">
-  <Text>I only render when there's nothing to render from my name</Text>
+  <Text>I only render when there is nothing to render from my name</Text>
 </WhitePortal>
 ```
