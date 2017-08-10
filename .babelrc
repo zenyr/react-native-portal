@@ -2,6 +2,7 @@
   "presets": [["es2015", { "modules": false }]],
   "plugins": [
     "external-helpers",
+    "transform-node-env-inline",
     "transform-flow-strip-types",
     "transform-class-properties"
   ]

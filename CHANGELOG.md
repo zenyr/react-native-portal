@@ -1,3 +1,6 @@
+# 1.1.1
+- fix broken browser build
+
 # 1.1.0
 - Replaced main entry to `index.noflow.js` to let users easily consume the module without `transform-class-properties` and `transform-flow-strip-types`
 - Added live demo
