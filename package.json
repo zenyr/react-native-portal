@@ -2,7 +2,8 @@
   "name": "react-native-portal",
   "version": "1.0.2",
   "description": "Translocate your render destination, using mitt. Built with react@16 and react-native in mind.",
-  "main": "index.js",
+  "main": "index.commonjs.js",
+  "module": "index.js",
   "author": "Zenyr <zenyr@zenyr.com>",
   "repository": {
     "type": "git",
