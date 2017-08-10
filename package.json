@@ -1,6 +1,6 @@
 {
   "name": "react-native-portal",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Translocate your render destination, using mitt. Built with react@16 and react-native in mind.",
   "main": "index.commonjs.js",
   "browser": "index.min.js",
