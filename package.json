@@ -3,14 +3,15 @@
   "version": "1.0.2",
   "description": "Translocate your render destination, using mitt. Built with react@16 and react-native in mind.",
   "main": "index.commonjs.js",
-  "module": "index.js",
+  "module": "index.noflow.js",
   "author": "Zenyr <zenyr@zenyr.com>",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/zenyr/react-native-portal.git"
   },
   "scripts": {
-    "build": "rollup -c"
+    "noflow": "babel --no-babelrc index.js --out-file index.test.js --plugins=transform-flow-strip-types,transform-class-properties",
+    "build": "rollup -c&&yarn noflow"
   },
   "keywords": [
     "portal",
