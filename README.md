@@ -60,9 +60,22 @@ https://unpkg.com/react-native-portal/index.min.js
 
 However I do not recommend that on production 😂
 
-## ES6 usage
+## ES6 usage (outside of `react-native`)
+
+Only refer this if you are going to use this module on browsers.  
 <details>
-<summary>Babel config</summary>
+<summary>Solution 1. use vanilla es6 module</summary>
+  Since 1.1.1 I've included index.noflow.js in the npm repo.
+  It sticks to the pure es6 spec (as of es2015) so you won't need to strip away class properties and flow comments.
+  ```
+  import {PortalProvider} from 'react-native-portal/index.noflow';
+  ```
+  
+  (I'd better improve those filenames. I'll do a major semver update in that case!)
+</details>
+
+<details>
+<summary>Solution 2. Babel config</summary>
   This module will work out-of-the-box with most React-native configurations. But you may need to tweak a few options to use `react-native-portal`.
 
 ```js
