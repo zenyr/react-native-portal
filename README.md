@@ -62,12 +62,14 @@ However I do not recommend that on production 😂
 
 ## ES6 usage (outside of `react-native`)
 
-Only refer this if you are going to use this module on browsers.  
+Only refer this if you are going to use this module on browsers or a modified environment.  
 <details>
-<summary>Solution 1. use vanilla es6 module</summary>
-  Since 1.1.1 I've included index.noflow.js in the npm repo.
+<summary>Solution 1. Vanilla es6 module</summary>
+  
+  Since 1.1.1 I've included `index.noflow.js` in the npm repo.
   It sticks to the pure es6 spec (as of es2015) so you won't need to strip away class properties and flow comments.
-  ```
+  
+  ```js
   import {PortalProvider} from 'react-native-portal/index.noflow';
   ```
   
