@@ -6,6 +6,8 @@ import React from 'react'; // peer-dependancy
 import mitt from 'mitt'; // DEPENDANCY #1
 import PropTypes from 'prop-types'; // DEPENDANCY #2, sorta
 
+if (!PropTypes) console.warn('<react-native-portal> no PropTypes available');
+
 const oContextTypes = {
   portalSub: PropTypes.func,
   portalUnsub: PropTypes.func,
