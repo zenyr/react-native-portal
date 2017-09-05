@@ -1,6 +1,3 @@
 node_modules
-*.es5.*
-*.min.*
-*.umd.*
-*.commonjs.*
-*.noflow.*
+dist
+*.log
