@@ -1,8 +1,7 @@
 {
   "name": "react-native-portal",
-  "version": "1.1.1",
-  "description":
-    "Translocate your render destination, using mitt. Built with react@16 and react-native in mind.",
+  "version": "1.1.2",
+  "description": "Translocate your render destination, using mitt. Built with react@16 and react-native in mind.",
   "main": "index.js",
   "unpkg": "dist/umd.js",
   "module": "dist/noflow.js",
@@ -12,11 +11,15 @@
     "url": "git+https://github.com/zenyr/react-native-portal.git"
   },
   "scripts": {
-    "noflow":
-      "cross-env NODE_ENV=production babel --no-babelrc index.js --out-file dist/noflow.js --plugins=transform-flow-strip-types,transform-class-properties",
+    "noflow": "cross-env NODE_ENV=production babel --no-babelrc index.js --out-file dist/noflow.js --plugins=transform-flow-strip-types,transform-class-properties",
     "build": "cross-env NODE_ENV=production rollup -c&&yarn noflow"
   },
-  "keywords": ["portal", "gateway", "react", "react-native"],
+  "keywords": [
+    "portal",
+    "gateway",
+    "react",
+    "react-native"
+  ],
   "bugs": {
     "url": "https://github.com/zenyr/react-native-portal/issues"
   },
