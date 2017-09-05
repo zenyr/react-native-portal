@@ -1,3 +1,11 @@
+# 1.1.3
+- fix unpkg build (to bundle PropTypes)
+
+# 1.1.2
+- fix import in react-native (#2)
+- rename `index.*.js` to `dist/*.js`
+- add simple check for `PropTypes`
+
 # 1.1.1
 - fix broken browser build
 
@@ -6,8 +14,8 @@
 - Added live demo
 - Added ES5 build for npm as `index.es5.js` && `index.min.js`
   - available as
-    - https://unpkg.com/react-native-portal/index.es5.js
-    - https://unpkg.com/react-native-portal/index.min.js
+    - https://unpkg.com/react-native-portal/index.es5.js (note: see 1.1.2)
+    - https://unpkg.com/react-native-portal/index.min.js (note: see 1.1.2)
     - etc. at https://unpkg.com/react-native-portal/
 
 # 1.0.2

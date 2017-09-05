@@ -54,25 +54,26 @@ You *can* access this module on `react-dom` + legacy browser environment via unp
 Good enough for quick prototyping and goofying around.
 
 ```
-https://unpkg.com/react-native-portal/index.es5.js
-https://unpkg.com/react-native-portal/index.min.js
+https://unpkg.com/react-native-portal/dist/es5.js
+https://unpkg.com/react-native-portal/dist/min.js
+  (expects React global, prop-types & mitt bundled)
 ```
 
-However I do not recommend that on production 😂
+However I do not recommend this on production 😂
 
 ## ES6 usage (outside of `react-native`)
 
 Only refer this if you are going to use this module on browsers or a modified environment.  
 <details>
 <summary>Solution 1. Vanilla es6 module</summary>
-  
-  Since 1.1.1 I've included `index.noflow.js` in the npm repo.
+
+  Since 1.1.1 I've included `dist/noflow.js` in the npm repo.
   It sticks to the pure es6 spec (as of es2015) so you won't need to strip away class properties and flow comments.
-  
+
   ```js
-  import {PortalProvider} from 'react-native-portal/index.noflow';
+  import {PortalProvider} from 'react-native-portal/dist/noflow';
   ```
-  
+
   (I'd better improve those filenames. I'll do a major semver update in that case!)
 </details>
 
