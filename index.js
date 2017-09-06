@@ -103,6 +103,7 @@ export class WhitePortal extends React.PureComponent {
   props: {
     name: string,
     children?: *,
+    childrenProps?: *,
   };
   componentWillMount() {
     const { name } = this.props;
@@ -117,9 +118,12 @@ export class WhitePortal extends React.PureComponent {
   forceUpdater = () => this.forceUpdate();
 
   render() {
-    const { name, children } = this.props;
+    const { name, children, childrenProps } = this.props;
     const { portalGet } = this.context;
-
-    return (portalGet && portalGet(name)) || children || null;
+    const portalChildren = (portalGet && portalGet(name)) || children;
+    return ((childrenProps && portalChildren) ?
+      React.cloneElement(React.Children.only(portalChildren), childrenProps) :
+      portalChildren
+    ) || null;
   }
 }
