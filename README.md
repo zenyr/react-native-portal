@@ -17,10 +17,13 @@ Feel free to file an issue/PR if you have a better way to publish this component
 
 - Minimalistic API
 - Minimal dependancy
+- Use official react API only
 
 # Known issues
 
-- Try not to put number `0` or `''` through. ( ͡° ͜ʖ ͡°)
+- Try not to put falsy `0` or `''` through. ( ͡° ͜ʖ ͡°)
+- A behavior of `BlackPortal`s having the exact same `name` is undefined, yet.
+  - Ideas appreciated
 - Uncanny resemblance with [cloudflare/react-gateway](https://github.com/cloudflare/react-gateway)
   - This one is smaller though
 - Has `react-native` in its name but works on anywhere including browser DOM.
@@ -122,8 +125,6 @@ Only refer this if you are going to use this module on browsers or a modified en
 </details>
 
 
-
-
 # Components
 
 ## `PortalProvider` = context provider, required
@@ -138,16 +139,20 @@ Only refer this if you are going to use this module on browsers or a modified en
 
 ## `BlackPortal` = Put things in here
 
-Sends its child until `WhitePortal` renders, and always render `null` in its place.
+Sends its child until `WhitePortal` renders, and always render `null` in its place. Once unmounted, it will wipe its `children` to `null`.
 
 ### props
 
 - `name` : `string`
-- `children` : `ReactElement<*>`
+- `children` : `ReactElement<*> | null`
 
 ```html
 <BlackPortal name="wow">
   <MyButton onPress={this.whatever} title="I'm going to space"/>
+</BlackPortal>
+
+<BlackPortal name={`greet-${user.id}`}>
+  <Skeletal>Hello, {user.name}!</Skeletal>
 </BlackPortal>
 ```
 
@@ -160,10 +165,14 @@ Renders anything sent from `BlackPortal`. Renders its given child as a fallback.
 ### props
 
 - `name` : `string`
-- `children?` : `ReactElement<*>`
+- `children` : `?ReactElement<*>` - a default child. default: `null`
+- `childrenProps` : `?object` - inject props if provided
 
 ```html
 <WhitePortal name="wow">
-  <Text>I only render when there is nothing to render from my name</Text>
+  <Text>I only render when there is nothing(falsy) to render from my name</Text>
 </WhitePortal>
+
+<WhitePortal name={`greet-${user.id}`} childrenProps={{doot:'thank'}} />
+==> renders <Skeletal doot="thank">…</Skeletal>
 ```

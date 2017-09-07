@@ -1,3 +1,6 @@
+# 1.2.0
+- add `childrenProps` prop in `WhitePortal`
+
 # 1.1.3
 - fix unpkg build (to bundle PropTypes)
 
@@ -10,12 +13,12 @@
 - fix broken browser build
 
 # 1.1.0
-- Replaced main entry to `index.noflow.js` to let users easily consume the module without `transform-class-properties` and `transform-flow-strip-types`
-- Added live demo
-- Added ES5 build for npm as `index.es5.js` && `index.min.js`
+- Replace main entry to `index.noflow.js` to let users easily consume the module without `transform-class-properties` and `transform-flow-strip-types`
+- Add live demo
+- Add ES5 build for npm as `index.es5.js` && `index.min.js`
   - available as
-    - https://unpkg.com/react-native-portal/index.es5.js (note: see 1.1.2)
     - https://unpkg.com/react-native-portal/index.min.js (note: see 1.1.2)
+    - https://unpkg.com/react-native-portal/index.es5.js (note: see 1.1.2)
     - etc. at https://unpkg.com/react-native-portal/
 
 # 1.0.2
