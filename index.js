@@ -121,9 +121,10 @@ export class WhitePortal extends React.PureComponent {
     const { name, children, childrenProps } = this.props;
     const { portalGet } = this.context;
     const portalChildren = (portalGet && portalGet(name)) || children;
-    return ((childrenProps && portalChildren) ?
-      React.cloneElement(React.Children.only(portalChildren), childrenProps) :
-      portalChildren
-    ) || null;
+    return (
+      (childrenProps && portalChildren
+        ? React.cloneElement(React.Children.only(portalChildren), childrenProps)
+        : portalChildren) || null
+    );
   }
 }
