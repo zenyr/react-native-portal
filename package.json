@@ -5,6 +5,7 @@
   "main": "index.js",
   "unpkg": "dist/umd.js",
   "module": "dist/noflow.js",
+  "types": "index.d.ts",
   "author": "Zenyr <zenyr@zenyr.com>",
   "repository": {
     "type": "git",
