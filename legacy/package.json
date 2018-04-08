@@ -12,7 +12,8 @@
     "url": "git+https://github.com/zenyr/react-native-portal.git"
   },
   "scripts": {
-    "build": "tsc -p ."
+    "noflow": "cross-env NODE_ENV=production babel --no-babelrc index.js --out-file dist/noflow.js --plugins=transform-flow-strip-types,transform-class-properties",
+    "build": "cross-env NODE_ENV=production rollup -c&&yarn noflow"
   },
   "keywords": [
     "portal",
@@ -26,17 +27,24 @@
   "homepage": "https://github.com/zenyr/react-native-portal",
   "license": "MIT",
   "dependencies": {
-    "mitt": "*",
-    "prop-types": "^15.6.1",
-    "react": "^16.3.1"
+    "mitt": "*"
   },
   "peerDependencies": {
     "prop-types": "*",
     "react": "*"
   },
   "devDependencies": {
-    "@types/prop-types": "^15.5.2",
-    "@types/react": "^16.3.5",
-    "typescript": "^2.8.1"
+    "babel-cli": "^6.24.1",
+    "babel-plugin-external-helpers": "^6.22.0",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-flow-strip-types": "^6.22.0",
+    "babel-plugin-transform-node-env-inline": "^0.1.1",
+    "babel-preset-es2015": "^6.24.1",
+    "cross-env": "^5.0.5",
+    "rollup": "^0.45.2",
+    "rollup-plugin-babel": "^3.0.1",
+    "rollup-plugin-commonjs": "^8.1.0",
+    "rollup-plugin-node-resolve": "^3.0.0",
+    "rollup-plugin-uglify": "^2.0.1"
   }
 }
