@@ -2,9 +2,9 @@
   @flow weak
  */
 
-import React from 'react'; // peer-dependancy
-import mitt from 'mitt'; // DEPENDANCY #1
-import PropTypes from 'prop-types'; // DEPENDANCY #2, sorta
+import React from 'react'; // peer-dependency
+import mitt from 'mitt'; // DEPENDENCY #1
+import PropTypes from 'prop-types'; // DEPENDENCY #2, sorta
 
 if (!PropTypes) console.warn('<react-native-portal> no PropTypes available');
 
