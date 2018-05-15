@@ -19,7 +19,7 @@ export class PortalProvider extends React.Component {
   _emitter: *;
   static childContextTypes = oContextTypes;
 
-  state = {};
+  portals = new Map();
 
   getChildContext() {
     return {
@@ -56,11 +56,13 @@ export class PortalProvider extends React.Component {
 
   // 변경
   portalSet = (name, value) => {
-    const emitter = this._emitter;
-    this.setState({ [name]: value }, () => emitter && emitter.emit(name));
+    this.portals.set(name, value);
+    if (this._emitter) {
+      this._emitter.emit(name);
+    }
   };
 
-  portalGet = name => this.state[name] || null;
+  portalGet = name => this.portals.get(name) || null;
 
   // 변경
   render() {
