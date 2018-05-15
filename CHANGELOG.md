@@ -1,3 +1,6 @@
+# 1.3.0
+- replace `state` with a private `Map`
+
 # 1.2.0
 - add `childrenProps` prop in `WhitePortal`
 
