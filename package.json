@@ -13,7 +13,8 @@
   },
   "scripts": {
     "noflow": "cross-env NODE_ENV=production babel --no-babelrc index.js --out-file dist/noflow.js --plugins=transform-flow-strip-types,transform-class-properties",
-    "build": "cross-env NODE_ENV=production rollup -c&&yarn noflow"
+    "build": "cross-env NODE_ENV=production rollup -c&&yarn noflow",
+    "test": "jest"
   },
   "keywords": [
     "portal",
@@ -27,24 +28,34 @@
   "homepage": "https://github.com/zenyr/react-native-portal",
   "license": "MIT",
   "dependencies": {
-    "mitt": "*"
-  },
-  "peerDependencies": {
+    "mitt": "*",
     "prop-types": "*",
     "react": "*"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
+    "babel-jest": "^22.4.3",
     "babel-plugin-external-helpers": "^6.22.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-flow-strip-types": "^6.22.0",
     "babel-plugin-transform-node-env-inline": "^0.1.1",
+    "babel-preset-env": "^1.7.0",
     "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
     "cross-env": "^5.0.5",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
+    "jest": "^22.4.3",
+    "react-dom": "*",
     "rollup": "^0.45.2",
     "rollup-plugin-babel": "^3.0.1",
     "rollup-plugin-commonjs": "^8.1.0",
     "rollup-plugin-node-resolve": "^3.0.0",
     "rollup-plugin-uglify": "^2.0.1"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.jsx?$": "babel-jest"
+    }
   }
 }

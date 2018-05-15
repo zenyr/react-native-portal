@@ -1,9 +1,21 @@
 {
-  "presets": [["es2015", { "modules": false }]],
-  "plugins": [
-    "external-helpers",
-    "transform-node-env-inline",
-    "transform-flow-strip-types",
-    "transform-class-properties"
-  ]
+  "env": {
+    "production": {
+      "presets": [["es2015", { "modules": false }]],
+      "plugins": [
+        "external-helpers",
+        "transform-node-env-inline",
+        "transform-flow-strip-types",
+        "transform-class-properties"
+      ]
+    },
+    "test": {
+      "presets": [["env"], "react"],
+      "plugins": [
+        "transform-node-env-inline",
+        "transform-flow-strip-types",
+        "transform-class-properties"
+      ]
+    }
+  }
 }
