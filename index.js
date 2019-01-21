@@ -2,37 +2,18 @@
   @flow weak
  */
 
-import React from 'react'; // peer-dependency
-import mitt from 'mitt'; // DEPENDENCY #1
-import PropTypes from 'prop-types'; // DEPENDENCY #2, sorta
+import React from "react"; // peer-dependency
+import mitt from "mitt"; // DEPENDENCY #1
+import PropTypes from "prop-types"; // DEPENDENCY #2, sorta
 
-if (!PropTypes) console.warn('<react-native-portal> no PropTypes available');
+if (!PropTypes) console.warn("<react-native-portal> no PropTypes available");
 
-const oContextTypes = {
-  portalSub: PropTypes.func,
-  portalUnsub: PropTypes.func,
-  portalAdd: PropTypes.func,
-  portalUpdate: PropTypes.func,
-  portalRemove: PropTypes.func,
-  portalGet: PropTypes.func,
-};
+const PortalContext = React.createContext();
 
 export class PortalProvider extends React.Component {
   _emitter: *;
-  static childContextTypes = oContextTypes;
 
   portals = new Map();
-
-  getChildContext() {
-    return {
-      portalSub: this.portalSub,
-      portalUnsub: this.portalUnsub,
-      portalAdd: this.portalAdd,
-      portalRemove: this.portalRemove,
-      portalUpdate: this.portalUpdate,
-      portalGet: this.portalGet,
-    };
-  }
 
   componentWillMount() {
     this._emitter = new mitt();
@@ -65,17 +46,17 @@ export class PortalProvider extends React.Component {
     if (this._emitter) {
       this._emitter.emit(name);
     }
-    return portal.length - 1
+    return portal.length - 1;
   };
 
   portalUpdate = (name, id, value) => {
     const portal = this.portals.get(name) || [];
-    portal[id] = value
+    portal[id] = value;
     portal.set(name, portal.append(value));
     if (this._emitter) {
       this._emitter.emit(name);
     }
-  }
+  };
 
   portalRemove = (name, id) => {
     const portal = this.portals.get(name) || [];
@@ -83,21 +64,32 @@ export class PortalProvider extends React.Component {
     if (this._emitter) {
       this._emitter.emit(name);
     }
-  }
+  };
 
   portalGet = name => this.portals.get(name) || null;
 
   // 변경
   render() {
-    return this.props.children;
+    const contextValue = {
+      portalAdd: this.portalAdd,
+      portalRemove: this.portalRemove,
+      portalUpdate: this.portalUpdate,
+      portalSub: this.portalSub,
+      portalUnsub: this.portalUnsub,
+      portalGet: this.portalGet
+    };
+    return (
+      <PortalContext.Provider value={contextValue}>
+        {this.props.children}
+      </PortalContext.Provider>
+    );
   }
 }
 
-export class BlackPortal extends React.PureComponent {
-  static contextTypes = oContextTypes;
+class _BlackPortal extends React.PureComponent {
   props: {
     name: string,
-    children?: *,
+    children?: *
   };
   componentDidMount() {
     const { name, children } = this.props;
@@ -123,12 +115,24 @@ export class BlackPortal extends React.PureComponent {
   }
 }
 
-export class WhitePortal extends React.PureComponent {
-  static contextTypes = oContextTypes;
+export const BlackPortal = props => (
+  <PortalContext.Consumer>
+    {({ portalAdd, portalUpdate, portalRemove }) => (
+      <_BlackPortal
+        portalAdd={portalAdd}
+        portalRemove={portalRemove}
+        portalUpdate={portalUpdate}
+        {...props}
+      />
+    )}
+  </PortalContext.Consumer>
+);
+
+class _WhitePortal extends React.PureComponent {
   props: {
     name: string,
     children?: *,
-    childrenProps?: *,
+    childrenProps?: *
   };
   componentWillMount() {
     const { name } = this.props;
@@ -153,3 +157,16 @@ export class WhitePortal extends React.PureComponent {
     );
   }
 }
+
+export const WhitePortal = props => (
+  <PortalContext.Consumer>
+    {({ portalGet, portalSub, portalUnsub }) => (
+      <_WhitePortal
+        portalSub={portalSub}
+        portalUnsub={portalUnsub}
+        portalGet={portalGet}
+        {...props}
+      />
+    )}
+  </PortalContext.Consumer>
+);
