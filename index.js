@@ -40,7 +40,7 @@ export class PortalProvider extends React.Component {
   };
 
   _portalSet = (name, value) => {
-    this.portals.set(name, portal.concat(value));
+    this.portals.set(name, value);
     if (this._emitter) {
       this._emitter.emit(name);
     }
@@ -92,26 +92,22 @@ class _BlackPortal extends React.PureComponent {
     children?: *
   };
   componentDidMount() {
-    const { name, children } = this.props;
-    const { portalAdd } = this.context;
+    const { name, children, portalAdd } = this.props;
     this.idx = portalAdd && portalAdd(name, React.Children.only(children));
   }
   componentWillReceiveProps(newProps) {
     const oldProps = this.props;
-    const { name, children } = newProps;
-    const { portalUpdate } = this.context;
+    const { name, children, portalUpdate } = newProps;
     if (oldProps.children != newProps.children) {
       portalUpdate &&
         portalUpdate(name, this.id, React.Children.only(children));
     }
   }
   componentWillUnmount() {
-    const { name } = this.props;
-    const { portalRemove } = this.context;
+    const { name, portalRemove } = this.props;
     portalRemove && portalRemove(name, this.id);
   }
   render() {
-    const { name } = this.props;
     return null;
   }
 }
@@ -136,20 +132,17 @@ class _WhitePortal extends React.PureComponent {
     childrenProps?: *
   };
   componentWillMount() {
-    const { name } = this.props;
-    const { portalSub } = this.context;
+    const { name, portalSub } = this.props;
     portalSub && portalSub(name, this.forceUpdater);
   }
   componentWillUnmount() {
-    const { name } = this.props;
-    const { portalUnsub } = this.context;
+    const { name, portalUnsub } = this.props;
     portalUnsub && portalUnsub(name, this.forceUpdater);
   }
   forceUpdater = () => this.forceUpdate();
 
   render() {
-    const { name, children, childrenProps } = this.props;
-    const { portalGet } = this.context;
+    const { name, children, childrenProps, portalGet } = this.props;
     const portalChildren = (portalGet && portalGet(name)) || children;
     return (
       (childrenProps && portalChildren
