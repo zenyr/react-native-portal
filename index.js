@@ -39,33 +39,31 @@ export class PortalProvider extends React.Component {
     }
   };
 
-  // 변경
-  portalAdd = (name, value) => {
-    const portal = this.portals.get(name) || [];
+  _portalSet = (name, value) => {
     this.portals.set(name, portal.concat(value));
     if (this._emitter) {
       this._emitter.emit(name);
     }
+  };
+
+  // 변경
+  portalAdd = (name, value) => {
+    const portal = this.portals.get(name) || [];
+    this._portalSet(name, portal.concat(value));
     return this.portals.get(name).length - 1;
   };
 
   portalUpdate = (name, index, value) => {
     const portal = this.portals.get(name) || [];
-    this.portals.set(
+    this._portalSet(
       name,
       portal.map((item, idx) => (index === idx ? value : item))
     );
-    if (this._emitter) {
-      this._emitter.emit(name);
-    }
   };
 
   portalRemove = (name, index) => {
     const portal = this.portals.get(name) || [];
-    this.portals.set(name, portal.filter((_, idx) => idx !== index));
-    if (this._emitter) {
-      this._emitter.emit(name);
-    }
+    this._portalSet(name, portal.filter((_, idx) => idx !== index));
   };
 
   portalGet = name => this.portals.get(name) || null;
