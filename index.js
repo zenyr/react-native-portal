@@ -11,7 +11,9 @@ if (!PropTypes) console.warn('<react-native-portal> no PropTypes available');
 const oContextTypes = {
   portalSub: PropTypes.func,
   portalUnsub: PropTypes.func,
-  portalSet: PropTypes.func,
+  portalAdd: PropTypes.func,
+  portalUpdate: PropTypes.func,
+  portalRemove: PropTypes.func,
   portalGet: PropTypes.func,
 };
 
