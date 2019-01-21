@@ -25,7 +25,9 @@ export class PortalProvider extends React.Component {
     return {
       portalSub: this.portalSub,
       portalUnsub: this.portalUnsub,
-      portalSet: this.portalSet,
+      portalAdd: this.portalAdd,
+      portalRemove: this.portalRemove,
+      portalUpdate: this.portalUpdate,
       portalGet: this.portalGet,
     };
   }
@@ -55,12 +57,31 @@ export class PortalProvider extends React.Component {
   };
 
   // 변경
-  portalSet = (name, value) => {
-    this.portals.set(name, value);
+  portalAdd = (name, value) => {
+    const portal = this.portals.get(name) || [];
+    portal.set(name, portal.append(value));
     if (this._emitter) {
       this._emitter.emit(name);
     }
+    return portal.length - 1
   };
+
+  portalUpdate = (name, id, value) => {
+    const portal = this.portals.get(name) || [];
+    portal[id] = value
+    portal.set(name, portal.append(value));
+    if (this._emitter) {
+      this._emitter.emit(name);
+    }
+  }
+
+  portalRemove = (name, id) => {
+    const portal = this.portals.get(name) || [];
+    portal.set(name, portal.filter(value => value !== id));
+    if (this._emitter) {
+      this._emitter.emit(name);
+    }
+  }
 
   portalGet = name => this.portals.get(name) || null;
 
@@ -78,21 +99,21 @@ export class BlackPortal extends React.PureComponent {
   };
   componentDidMount() {
     const { name, children } = this.props;
-    const { portalSet } = this.context;
-    portalSet && portalSet(name, children);
+    const { portalAdd } = this.context;
+    this.id = portalAdd && portalAdd(name, children);
   }
   componentWillReceiveProps(newProps) {
     const oldProps = this.props;
     const { name, children } = newProps;
-    const { portalSet } = this.context;
+    const { portalUpdate } = this.context;
     if (oldProps.children != newProps.children) {
-      portalSet && portalSet(name, children);
+      portalUpdate && portalUpdate(name, this.id, children);
     }
   }
   componentWillUnmount() {
     const { name } = this.props;
-    const { portalSet } = this.context;
-    portalSet && portalSet(name, null);
+    const { portalRemove } = this.context;
+    portalRemove && portalRemove(name, this.id);
   }
   render() {
     const { name } = this.props;
