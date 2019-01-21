@@ -100,12 +100,12 @@ class _BlackPortal extends React.PureComponent {
     const { name, children, portalUpdate } = newProps;
     if (oldProps.children != newProps.children) {
       portalUpdate &&
-        portalUpdate(name, this.id, React.Children.only(children));
+        portalUpdate(name, this.idx, React.Children.only(children));
     }
   }
   componentWillUnmount() {
     const { name, portalRemove } = this.props;
-    portalRemove && portalRemove(name, this.id);
+    portalRemove && portalRemove(name, this.idx);
   }
   render() {
     return null;
