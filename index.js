@@ -42,25 +42,27 @@ export class PortalProvider extends React.Component {
   // 변경
   portalAdd = (name, value) => {
     const portal = this.portals.get(name) || [];
-    portal.set(name, portal.append(value));
+    this.portals.set(name, portal.concat(value));
     if (this._emitter) {
       this._emitter.emit(name);
     }
-    return portal.length - 1;
+    return this.portals.get(name).length - 1;
   };
 
-  portalUpdate = (name, id, value) => {
+  portalUpdate = (name, index, value) => {
     const portal = this.portals.get(name) || [];
-    portal[id] = value;
-    portal.set(name, portal.append(value));
+    this.portals.set(
+      name,
+      portal.map((item, idx) => (index === idx ? value : item))
+    );
     if (this._emitter) {
       this._emitter.emit(name);
     }
   };
 
-  portalRemove = (name, id) => {
+  portalRemove = (name, index) => {
     const portal = this.portals.get(name) || [];
-    portal.set(name, portal.filter(value => value !== id));
+    this.portals.set(name, portal.filter((_, idx) => idx !== index));
     if (this._emitter) {
       this._emitter.emit(name);
     }
@@ -94,14 +96,15 @@ class _BlackPortal extends React.PureComponent {
   componentDidMount() {
     const { name, children } = this.props;
     const { portalAdd } = this.context;
-    this.id = portalAdd && portalAdd(name, children);
+    this.idx = portalAdd && portalAdd(name, React.Children.only(children));
   }
   componentWillReceiveProps(newProps) {
     const oldProps = this.props;
     const { name, children } = newProps;
     const { portalUpdate } = this.context;
     if (oldProps.children != newProps.children) {
-      portalUpdate && portalUpdate(name, this.id, children);
+      portalUpdate &&
+        portalUpdate(name, this.id, React.Children.only(children));
     }
   }
   componentWillUnmount() {
