@@ -10,9 +10,11 @@ if (!PropTypes) console.warn("<react-native-portal> no PropTypes available");
 
 const ensureSingleChild = children => {
   if (React.Children.count(children) > 1) {
-    throw new Error('<react-native-portal> More than 1 child provided to BlackPortal')
+    throw new Error(
+      "<react-native-portal> More than 1 child provided to BlackPortal"
+    );
   }
-}
+};
 
 const PortalContext = React.createContext();
 
@@ -92,27 +94,31 @@ export class PortalProvider extends React.Component {
   }
 }
 
-class _BlackPortal extends React.PureComponent {
+export class BlackPortal extends React.PureComponent {
+  static contextType = PortalContext;
   props: {
     name: string,
     children?: *
   };
   componentDidMount() {
-    const { name, children, portalAdd } = this.props;
-    ensureSingleChild(children)
+    const { name, children } = this.props;
+    const { portalAdd } = this.context;
+    ensureSingleChild(children);
     this.idx = portalAdd && portalAdd(name, children);
   }
   componentWillReceiveProps(newProps) {
     const oldProps = this.props;
-    const { name, children, portalUpdate } = newProps;
+    const { name, children } = newProps;
+    const { portalUpdate } = this.context;
     if (oldProps.children != newProps.children) {
-      ensureSingleChild(children)
+      ensureSingleChild(children);
       portalUpdate &&
         portalUpdate(name, this.idx, React.Children.only(children));
     }
   }
   componentWillUnmount() {
-    const { name, portalRemove } = this.props;
+    const { name } = this.props;
+    const { portalRemove } = this.context;
     portalRemove && portalRemove(name, this.idx);
   }
   render() {
@@ -120,55 +126,35 @@ class _BlackPortal extends React.PureComponent {
   }
 }
 
-export const BlackPortal = props => (
-  <PortalContext.Consumer>
-    {({ portalAdd, portalUpdate, portalRemove }) => (
-      <_BlackPortal
-        portalAdd={portalAdd}
-        portalRemove={portalRemove}
-        portalUpdate={portalUpdate}
-        {...props}
-      />
-    )}
-  </PortalContext.Consumer>
-);
-
-class _WhitePortal extends React.PureComponent {
+export class WhitePortal extends React.PureComponent {
+  static contextType = PortalContext;
   props: {
     name: string,
     children?: *,
     childrenProps?: *
   };
   componentWillMount() {
-    const { name, portalSub } = this.props;
+    const { name } = this.props;
+    const { portalSub } = this.context;
     portalSub && portalSub(name, this.forceUpdater);
   }
   componentWillUnmount() {
-    const { name, portalUnsub } = this.props;
+    const { name } = this.props;
+    const { portalUnsub } = this.context;
     portalUnsub && portalUnsub(name, this.forceUpdater);
   }
   forceUpdater = () => this.forceUpdate();
 
   render() {
-    const { name, children, childrenProps, portalGet } = this.props;
+    const { name, children, childrenProps } = this.props;
+    const { portalGet } = this.context;
     const portalChildren = (portalGet && portalGet(name)) || children;
     return (
       (childrenProps && portalChildren
-        ? React.Children.map(portalChildren, child => React.cloneElement(child, childrenProps))
+        ? React.Children.map(portalChildren, child =>
+            React.cloneElement(child, childrenProps)
+          )
         : portalChildren) || null
     );
   }
 }
-
-export const WhitePortal = props => (
-  <PortalContext.Consumer>
-    {({ portalGet, portalSub, portalUnsub }) => (
-      <_WhitePortal
-        portalSub={portalSub}
-        portalUnsub={portalUnsub}
-        portalGet={portalGet}
-        {...props}
-      />
-    )}
-  </PortalContext.Consumer>
-);
