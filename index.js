@@ -2,16 +2,16 @@
   @flow weak
  */
 
-import React from "react"; // peer-dependency
-import mitt from "mitt"; // DEPENDENCY #1
-import PropTypes from "prop-types"; // DEPENDENCY #2, sorta
+import React from 'react'; // peer-dependency
+import mitt from 'mitt'; // DEPENDENCY #1
+import PropTypes from 'prop-types'; // DEPENDENCY #2, sorta
 
-if (!PropTypes) console.warn("<react-native-portal> no PropTypes available");
+if (!PropTypes) console.warn('<react-native-portal> no PropTypes available');
 
 const ensureSingleChild = children => {
   if (React.Children.count(children) > 1) {
     throw new Error(
-      "<react-native-portal> More than 1 child provided to BlackPortal"
+      '<react-native-portal> More than 1 child provided to BlackPortal'
     );
   }
 };
@@ -82,7 +82,7 @@ export class PortalProvider extends React.Component {
     portalUpdate: this.portalUpdate,
     portalSub: this.portalSub,
     portalUnsub: this.portalUnsub,
-    portalGet: this.portalGet
+    portalGet: this.portalGet,
   };
 
   // 변경
@@ -99,7 +99,7 @@ export class BlackPortal extends React.PureComponent {
   static contextType = PortalContext;
   props: {
     name: string,
-    children?: *
+    children?: *,
   };
   componentDidMount() {
     const { name, children } = this.props;
@@ -132,7 +132,7 @@ export class WhitePortal extends React.PureComponent {
   props: {
     name: string,
     children?: *,
-    childrenProps?: *
+    childrenProps?: *,
   };
   componentWillMount() {
     const { name } = this.props;
