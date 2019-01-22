@@ -8,6 +8,12 @@ import PropTypes from "prop-types"; // DEPENDENCY #2, sorta
 
 if (!PropTypes) console.warn("<react-native-portal> no PropTypes available");
 
+const ensureSingleChild = children => {
+  if (React.Children.count(children) > 1) {
+    throw new Error('<react-native-portal> More than 1 child provided to BlackPortal')
+  }
+}
+
 const PortalContext = React.createContext();
 
 export class PortalProvider extends React.Component {
@@ -93,12 +99,14 @@ class _BlackPortal extends React.PureComponent {
   };
   componentDidMount() {
     const { name, children, portalAdd } = this.props;
-    this.idx = portalAdd && portalAdd(name, React.Children.only(children));
+    ensureSingleChild(children)
+    this.idx = portalAdd && portalAdd(name, children);
   }
   componentWillReceiveProps(newProps) {
     const oldProps = this.props;
     const { name, children, portalUpdate } = newProps;
     if (oldProps.children != newProps.children) {
+      ensureSingleChild(children)
       portalUpdate &&
         portalUpdate(name, this.idx, React.Children.only(children));
     }
@@ -146,7 +154,7 @@ class _WhitePortal extends React.PureComponent {
     const portalChildren = (portalGet && portalGet(name)) || children;
     return (
       (childrenProps && portalChildren
-        ? React.cloneElement(React.Children.only(portalChildren), childrenProps)
+        ? React.Children.map(portalChildren, child => React.cloneElement(child, childrenProps))
         : portalChildren) || null
     );
   }
