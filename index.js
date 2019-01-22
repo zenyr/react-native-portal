@@ -76,18 +76,19 @@ export class PortalProvider extends React.Component {
 
   portalGet = name => this.portals.get(name) || null;
 
+  contextValue = {
+    portalAdd: this.portalAdd,
+    portalRemove: this.portalRemove,
+    portalUpdate: this.portalUpdate,
+    portalSub: this.portalSub,
+    portalUnsub: this.portalUnsub,
+    portalGet: this.portalGet
+  };
+
   // 변경
   render() {
-    const contextValue = {
-      portalAdd: this.portalAdd,
-      portalRemove: this.portalRemove,
-      portalUpdate: this.portalUpdate,
-      portalSub: this.portalSub,
-      portalUnsub: this.portalUnsub,
-      portalGet: this.portalGet
-    };
     return (
-      <PortalContext.Provider value={contextValue}>
+      <PortalContext.Provider value={this.contextValue}>
         {this.props.children}
       </PortalContext.Provider>
     );
