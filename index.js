@@ -21,7 +21,7 @@ export class PortalProvider extends React.Component {
 
   portals = new Map();
 
-  componentWillMount() {
+  constructor() {
     this._emitter = new mitt();
   }
 
@@ -111,11 +111,10 @@ export class BlackPortal extends React.PureComponent {
     this.id = portalAdd && portalAdd(name, children);
   }
 
-  componentWillReceiveProps(newProps) {
-    const oldProps = this.props;
-    const { name, children } = newProps;
+  componentDidUpdate(prevProps) {
+    const { name, children } = this.props;
     const { portalUpdate } = this.context;
-    if (oldProps.children != newProps.children) {
+    if (prevProps.children != newProps.children) {
       portalUpdate && portalUpdate(name, this.id, children);
     }
   }
@@ -140,7 +139,7 @@ export class WhitePortal extends React.PureComponent {
     childrenProps?: *,
   };
 
-  componentWillMount() {
+  componentDidMount() {
     const { name } = this.props;
     const { portalSub } = this.context;
     portalSub && portalSub(name, this.forceUpdater);
