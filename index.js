@@ -21,7 +21,8 @@ export class PortalProvider extends React.Component {
 
   portals = new Map();
 
-  constructor() {
+  constructor(props) {
+    super(props)
     this._emitter = new mitt();
   }
 
@@ -114,7 +115,7 @@ export class BlackPortal extends React.PureComponent {
   componentDidUpdate(prevProps) {
     const { name, children } = this.props;
     const { portalUpdate } = this.context;
-    if (prevProps.children != newProps.children) {
+    if (prevProps.children != children) {
       portalUpdate && portalUpdate(name, this.id, children);
     }
   }
