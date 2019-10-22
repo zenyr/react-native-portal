@@ -2,17 +2,17 @@
   @flow weak
  */
 
-import React from 'react'; // peer-dependency
-import mitt from 'mitt'; // DEPENDENCY #1
-import PropTypes from 'prop-types'; // DEPENDENCY #2, sorta
+import React from "react"; // peer-dependency
+import mitt from "mitt"; // DEPENDENCY #1
+import PropTypes from "prop-types"; // DEPENDENCY #2, sorta
 
-if (!PropTypes) console.warn('<react-native-portal> no PropTypes available');
+if (!PropTypes) console.warn("<react-native-portal> no PropTypes available");
 
 const oContextTypes = {
   portalSub: PropTypes.func,
   portalUnsub: PropTypes.func,
   portalSet: PropTypes.func,
-  portalGet: PropTypes.func,
+  portalGet: PropTypes.func
 };
 
 export class PortalProvider extends React.Component {
@@ -26,11 +26,11 @@ export class PortalProvider extends React.Component {
       portalSub: this.portalSub,
       portalUnsub: this.portalUnsub,
       portalSet: this.portalSet,
-      portalGet: this.portalGet,
+      portalGet: this.portalGet
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this._emitter = new mitt();
   }
 
@@ -74,18 +74,20 @@ export class BlackPortal extends React.PureComponent {
   static contextTypes = oContextTypes;
   props: {
     name: string,
-    children?: *,
+    children?: *
   };
   componentDidMount() {
     const { name, children } = this.props;
     const { portalSet } = this.context;
     portalSet && portalSet(name, children);
   }
-  componentWillReceiveProps(newProps) {
-    const oldProps = this.props;
-    const { name, children } = newProps;
+  componentDidUpdate(prevProps) {
+    if (this.props === prevProps) {
+      return;
+    }
+    const { name, children } = this.props;
     const { portalSet } = this.context;
-    if (oldProps.children != newProps.children) {
+    if (prevProps.children != this.props.children) {
       portalSet && portalSet(name, children);
     }
   }
@@ -105,9 +107,9 @@ export class WhitePortal extends React.PureComponent {
   props: {
     name: string,
     children?: *,
-    childrenProps?: *,
+    childrenProps?: *
   };
-  componentWillMount() {
+  componentDidMount() {
     const { name } = this.props;
     const { portalSub } = this.context;
     portalSub && portalSub(name, this.forceUpdater);
